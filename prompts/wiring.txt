@@ -1,0 +1,42 @@
+Now I'd like to actually wire this up.
+
+I've created a Roboflow Workflow that accepts a text query and returns a CLIP embedding. I also added a `ROBOFLOW_API_KEY` environment vairable.
+
+Adapt this example code for calling the workflow to happen from the server when we make a query:
+```
+const response = await fetch('https://detect.roboflow.com/infer/workflows/shortest-hackathon/embed-text', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        api_key: 'YOUR API KEY HERE',
+        inputs: {
+            "image": {"type": "base64", "value": "..."},
+            "query": "TEXT QUERY HERE"
+        }
+    })
+});
+
+const result = await response.json();
+```
+Please note that the `image` input is required but not actually used. Please fill it in with a dummy 10x10 black png image so we don't get an error.
+
+The response format will be something like this:
+```
+[
+  {
+    "embedding": [
+      -0.04967321828007698,
+      0.029600081965327263,
+      -0.1002882570028305,
+      -0.04563215374946594,
+      0.0658196434378624,
+      -0.18116864562034607,
+...
+]}]
+```
+
+Use this to query against the image embeddings in our Supabase table and return the 25 closest matches.
+
+Then use that information to update the heatmap. The location of the best match camera should be the "hottest". I'll let you choose how mathematically to accomplish that in a visually stimulating way.
