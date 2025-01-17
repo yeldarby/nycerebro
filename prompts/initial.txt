@@ -1,0 +1,20 @@
+I'm creating a web app called NYCerebro. It will let you search all of the live imagery from NYC's public traffic cameras using CLIP.
+
+The app will have two pages:
+
+/ is the homepage and should be a similar interface to Google Search with a logo, a textbox, and a "Search" button. Below this there should be some ideas for queries (presented as "links" similar to the idea of "I'm feeling lucky" on Google to get people started if they don't know what to type. These should be "weird", "busy", "bright", "time square", and "traffic"
+/search?q=<QUERY> will be the search results page. At the top, it will have a live updating view of the best result webcam for the QUERY (as defined by the best match to the query's CLIP vector). Below that will be a heatmap of New York City (using the Mapbox API) showing where the QUERY is most concentrated based on the similarity of the images in the DB to the query's CLIP embedding (so, for example, querying "busy" during a weekday morning would likely be concentrated around the financial district and subway stations and "weird" would probably be concentrated around Bushwick).
+The /search page should show a loading screen while it hits a backend endpoint called /getResults. The responsibility of /getResults is to accept the QUERY as a string, embed it with CLIP and then pull the results needed to render the /search page from the database (skip the CLIP part for now and just pull results at random from the Supabase table; I will fill in the logic later).
+
+I have created a table in Supabase called cameras and filled it with rows with info like this (later on I will actually fill in the values for the embeddings by running CLIP on the webcam images on a recurring basis; let's ignore that for now):
+
+INSERT INTO cameras (camera_id, latitude, longitude, embedding)
+VALUES
+('1b874f5c-e1c6-481d-bb85-8d7d92c1793b', 40.6656, -73.9536, array_fill(0::float, ARRAY[512])::vector)
+...
+To generate an image URL from a camera_id, fill the ID into this string format:
+
+https://webcams.nyctmc.org/api/cameras/{CAMERA_ID_HERE}/image?t={EPOCH_TIME_IN_SECONDS}
+We should refresh the camera image every 2 seconds on the /search results page.
+
+For reference, here is my Mapbox Public Token: pk.eyJ1Ijoicm9ib2Zsb3dicmFkIiwiYSI6ImNtNjA1cXZnOTA1bHUya284OHB4Z25lYTEifQ.Y8nuCyyyE_nKDEK4TaHduA
