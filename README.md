@@ -1,4 +1,4 @@
-<img width="1353" alt="image" src="https://github.com/user-attachments/assets/e08bc41c-7a97-467e-84c0-31ee81542a83" /># NYCerebro
+# NYCerebro
 
 <!-- Display video -->
 <video width="600" controls>
