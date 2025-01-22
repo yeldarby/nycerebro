@@ -1,4 +1,4 @@
-# NYCerebro
+<img width="1353" alt="image" src="https://github.com/user-attachments/assets/e08bc41c-7a97-467e-84c0-31ee81542a83" /># NYCerebro
 
 <!-- Display video -->
 <video width="600" controls>
@@ -7,6 +7,8 @@
 </video>
 
 This repository contains the code for the NYCerebro, project which won the Vercel + NVIDA World's Shortest Hackathon.
+
+[Full writeup here](https://blog.roboflow.com/nycerebro/) of how we built this using CLIP, Supabase, Mapbox, and Roboflow.
 
 ## Project Description
 
